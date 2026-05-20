@@ -26,3 +26,18 @@ com:
 ```bash
 conda env create -f envs/environment.yaml
 conda activate <env>
+
+
+## Output columns
+
+| Column | Description |
+|---|---|
+| species | Species name |
+| seq_region | Chromosome/scaffold |
+| start | Repeat start |
+| end | Repeat end |
+| strand | Strand |
+| repeat_name | Repeat family |
+| repeat_class | Repeat class |
+| repeat_type | Repeat type |
+| length | Repeat length |
