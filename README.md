@@ -21,12 +21,13 @@ com:
 - repeat_consensus.txt.gz
 - seq_region.txt.gz
 
+  
 ## Instalação
 
 ```bash
 conda env create -f envs/environment.yaml
 conda activate <env>
-
+```
 
 ## Output columns
 
