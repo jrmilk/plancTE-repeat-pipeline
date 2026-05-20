@@ -1,0 +1,44 @@
+configfile: "../config/config.yaml"
+
+from pathlib import Path
+
+DATA_DIR = config["data_dir"]
+
+SPECIES = []
+
+for p in Path(DATA_DIR).iterdir():
+
+    if not p.is_dir():
+        continue
+
+    required = [
+        p / "repeat_feature.txt.gz",
+        p / "repeat_consensus.txt.gz",
+        p / "seq_region.txt.gz"
+    ]
+
+    if all(f.exists() for f in required):
+        SPECIES.append(p.name)
+
+rule all:
+    input:
+        expand("../results/repeats/{species}.repeats.tsv.gz", species=SPECIES),
+        expand("../results/qc/{species}.summary.tsv", species=SPECIES)
+
+rule extract_repeats:
+    input:
+        rf = lambda wildcards: f"{DATA_DIR}/{wildcards.species}/repeat_feature.txt.gz",
+        rc = lambda wildcards: f"{DATA_DIR}/{wildcards.species}/repeat_consensus.txt.gz",
+        sr = lambda wildcards: f"{DATA_DIR}/{wildcards.species}/seq_region.txt.gz"
+    output:
+        tsv = "../results/repeats/{species}.repeats.tsv.gz"
+    script:
+        "../scripts/extract_repeats.py"
+
+rule summarize_species:
+    input:
+        "../results/repeats/{species}.repeats.tsv.gz"
+    output:
+        "../results/qc/{species}.summary.tsv"
+    script:
+        "../scripts/summarize_species.py"

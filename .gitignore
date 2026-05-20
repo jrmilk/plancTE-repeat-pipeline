@@ -1,0 +1,10 @@
+results/
+.snakemake/
+*.log
+*.png
+*.pdf
+*.html
+*.gz
+*.tsv
+*.bed
+__pycache__/
